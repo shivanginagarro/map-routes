@@ -1,6 +1,6 @@
 export const MAP_SETTING = {
     //Put the your google console api key here...
-    KEY: "AIzaSyAfHQ-pXQRlknqf3eh7_jlhuCyjZXMeOZ4",
+    KEY: "_put_your_google_api_key",
     //place the coordinates of your city... :)
     COORDINATES: {
         lat: -34.397,

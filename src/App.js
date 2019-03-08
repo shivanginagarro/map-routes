@@ -5,7 +5,7 @@ import './App.css';
 /**
  * importing files for our homepage ui components
  */
-import RouteInfo from './components/RouteInfo/index.js';
+import RouteInfo from './components/route-info/index.js';
 import Map from './components/map/index.js';
 
 /**
