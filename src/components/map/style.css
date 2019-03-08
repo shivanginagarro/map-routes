@@ -1,0 +1,6 @@
+.map-wrapper{
+        display: flex;
+        float: right;
+        width: 70% !important;
+        height: 500px;
+}
