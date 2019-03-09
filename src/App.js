@@ -19,7 +19,7 @@ const App = (props) => {
     <div className="App">
       <h1><b>Routing with Google Map</b></h1>
       <div className={{ "width": 100 + "%" }}>
-        <RouteInfo />
+          <RouteInfo />
           <Map />
       </div>
     </div>
