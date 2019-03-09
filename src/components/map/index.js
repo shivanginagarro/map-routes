@@ -45,6 +45,7 @@ class Map extends React.PureComponent {
     }
 
     render() {
+        console.log('map this.props',this.props);
         return (
             <div id="my-map" ref={ element => this.refereneceMapDiv = element} className={"map-wrapper"}>
                 <h2>My Map</h2>

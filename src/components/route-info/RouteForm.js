@@ -62,6 +62,7 @@ class RouteForm extends React.PureComponent {
     }
 
     render() {
+        console.log('this.props',this.props);
         return (
             <form>
                 <label> Starting Point:  <input type="text" name="starting" ref={el => _this.startPoint = el} placeholder="Pick Up From" /> </label>

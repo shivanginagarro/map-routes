@@ -16,9 +16,11 @@ const requestToGetRouteDirections = async (token) => {
 
 
 export const fetchDirectionsApi = async (coordinates) => {
-    let tokenResponse  = await requestForRoutesToken(coordinates);
-    console.log(tokenResponse);
-    let token  = tokenResponse.data.token ;  
+    let tokenResponse  = await requestForRoutesToken(coordinates)
+    let token  = tokenResponse && tokenResponse.data.token;  
     let routeResponse = await requestToGetRouteDirections(token);
-    console.log(routeResponse);
+    if (routeResponse  && routeResponse.data && routeResponse.data.status && routeResponse.data.status.toLowerCase() === 'in progress') {
+        routeResponse = await fetchDirectionsApi(coordinates);
+    }
+    return routeResponse;
 }
