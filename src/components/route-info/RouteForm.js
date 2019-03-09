@@ -14,15 +14,18 @@ class RouteForm extends React.PureComponent {
 
     constructor(props) {
         super(props);
-        _this = this;        
+        _this = this;
         _this.state = {
             startingPoint: "",
             droppingPoint: "",
-            message: ""
+            error: null,
+            total_distance: null,
+            total_time: null,
+            labelSubmit:"Submit"
         }
     }
 
-    componentWillMount() {
+    componentDidMount() {
         _this.setUpApiKeyInMap();
     }
 
@@ -39,36 +42,72 @@ class RouteForm extends React.PureComponent {
     getPlacesData = (googleObj) => {
         let originPlace = new googleObj.maps.places.Autocomplete(_this.startPoint)
         let destinationPlace = new googleObj.maps.places.Autocomplete(_this.dropPoint)
-        googleObj.maps.event.addListener(originPlace, 'place_changed', () =>{
+        googleObj.maps.event.addListener(originPlace, 'place_changed', () => {
             _this.startPointPlaces = originPlace.getPlace();
-         })
-         googleObj.maps.event.addListener(destinationPlace, 'place_changed', () =>{
+        })
+        googleObj.maps.event.addListener(destinationPlace, 'place_changed', () => {
             _this.dropPointPlaces = destinationPlace.getPlace();
-         })
+        })
     }
 
 
-    getRouteInMap = (event) =>{
+    getRouteInMap = (event) => {
         event.preventDefault();
+        //resetting states but not working need to check.
+        _this.resetStates();
         let originCoordinates = [
-             _this.startPointPlaces.geometry.location.lat().toString(),
+            _this.startPointPlaces.geometry.location.lat().toString(),
             _this.startPointPlaces.geometry.location.lng().toString()
         ]
         let destinationCorodinates = [
-          _this.dropPointPlaces.geometry.location.lat().toString(),
-          _this.dropPointPlaces.geometry.location.lng().toString()
+            _this.dropPointPlaces.geometry.location.lat().toString(),
+            _this.dropPointPlaces.geometry.location.lng().toString()
         ]
-        this.props.getRoutes({"origin":originCoordinates,"destination":destinationCorodinates});     
+        this.props.getRoutes({ "origin": originCoordinates, "destination": destinationCorodinates })
     }
 
+    resetForm = () => {
+        _this.startPoint = undefined;
+        _this.dropPoint = undefined;
+        _this.resetStates();
+    }
+
+    resetStates = () => {
+        _this.setState({
+            error: null,
+            total_distance: null,
+            total_time: null,
+        });
+    }
+
+    static getDerivedStateFromProps(props,state) {
+        const { informationDetail } = props;
+        const { total_time, total_distance, error } = informationDetail;
+        if (informationDetail) {
+            return {
+                total_distance,
+                total_time,
+                error,
+                labelSubmit: total_distance || error ?"Re-Submit":"Submit"
+            }
+        }
+        return null;
+    }
+
+    componentDidUpdate(){}
+
     render() {
-        console.log('this.props',this.props);
         return (
             <form>
                 <label> Starting Point:  <input type="text" name="starting" ref={el => _this.startPoint = el} placeholder="Pick Up From" /> </label>
                 <label> Dropping Point:  <input type="text" name="dropping" ref={el => _this.dropPoint = el} placeholder="Drop To" /> </label>
-                {_this.state.message && _this.state.message.length > 0 ? <div>{_this.state.message}</div> : null}
-                <input type="submit" value="Submit" onClick={_this.getRouteInMap} /> <button>Reset</button>
+                {_this.state.total_distance ? 
+                       <div><label>Total Distance</label>:{_this.state.total_distance}</div> : null}
+                {_this.state.total_time ? 
+                       <div><label>Total Time</label>:{_this.state.total_time}</div> : null}
+                {_this.state.error ? 
+                       <div><label>Error</label>:{_this.state.error}</div> : null}
+                <input type="submit" value={_this.state.labelSubmit} onClick={_this.getRouteInMap} /> <button onClick={_this.resetForm}>Reset</button>
             </form>
         )
     }

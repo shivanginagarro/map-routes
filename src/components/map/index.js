@@ -7,8 +7,9 @@ import { mapInitOnLoad } from './map-api-init-service';
 var GoogleMapsLoader = require('google-maps');
 
 class Map extends React.PureComponent {
-    // map on Dom
-    // googleMapDom;
+
+    currentMap;
+    maps;
 
     constructor(props) {
         super(props);
@@ -21,6 +22,7 @@ class Map extends React.PureComponent {
         GoogleMapsLoader.KEY = MAP_SETTING.KEY;
         GoogleMapsLoader.LIBRARIES = MAP_SETTING.LIBRARIES;
         let response = await mapInitOnLoad(GoogleMapsLoader);
+        this.maps = response;
         this.buildMapOnDom(response);
     }
 
@@ -30,24 +32,19 @@ class Map extends React.PureComponent {
      *  pass DIV to give dom for rendering map
      */
     buildMapOnDom(response) {
-         new response.maps.Map(this.refereneceMapDiv, {
+        this.googleMapInstance =  new response.maps.Map(this.refereneceMapDiv, {
             center: MAP_SETTING.COORDINATES,
             zoom: MAP_SETTING.ZOOM_SIZE
         });
     }
 
-    componentWillMount() {
+    componentDidMount(){
         this.setUpApiKeyInMap();
     }
 
-    componentWillUnmount() {
-        // GoogleMapsLoader.release(() => console.log('No google maps api around'));
-    }
-
     render() {
-        console.log('map this.props',this.props);
         return (
-            <div id="my-map" ref={ element => this.refereneceMapDiv = element} className={"map-wrapper"}>
+            <div id="my-map" ref={element => this.refereneceMapDiv = element} className={"map-wrapper"}>
                 <h2>My Map</h2>
             </div>
         )

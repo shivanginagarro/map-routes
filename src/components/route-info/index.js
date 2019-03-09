@@ -8,7 +8,7 @@ class RouteInfo extends React.PureComponent {
     render() {
         return (
             <div id="my-route" className={"route-info-wrapper"}>
-                <RouteForm getRoutes={this.props.getRoutes} />
+                <RouteForm getRoutes={this.props.getRoutes} {...this.props} />
             </div>
         )
     }

@@ -9,13 +9,12 @@ class ErrorBoundary extends React.Component {
 
     static getDerivedStateFromError(error) {
         // Update state so the next render will show the fallback UI.
-        return { hasError: true };
+        return { hasError: true,error };
     }
 
     componentDidCatch(error, info) {
         // You can also log the error to an error reporting service
         //   logErrorToMyService(error, info);
-        alert('error');
         console.log('error', error, info);
     }
 
@@ -27,7 +26,6 @@ class ErrorBoundary extends React.Component {
                 <details style={{ whiteSpace: 'pre-wrap' }}>
                     {this.state.error && this.state.error.toString()}
                     <br />
-                    {this.state.errorInfo.componentStack}
                 </details>
             </div>
         }

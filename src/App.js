@@ -53,8 +53,8 @@ class App extends React.PureComponent {
       this.setState({
       pathDetails : response.data.path,
       informationDetail : {
-        "total_distance": response.data.path.total_distance,
-        "total_time": response.data.path.total_time,
+        "total_distance": response.data.total_distance,
+        "total_time": response.data.total_time,
       }
      })
     }
@@ -62,14 +62,12 @@ class App extends React.PureComponent {
   }
 
   render() {
-    let informationDetail = null;
-
     return (
       <ErrorBoundary>
         <div className="App">
           <h1><b>Routing with Google Map</b></h1>
           <div className={{ "width": 100 + "%" }}>
-            {this.state.loading && <h1>LOADING ....!!!!!!</h1>}
+            {this.state.isLoading && <div style={{"height":30+"px"}}><h1>LOADING ....!!!!!!</h1></div>}
             <RouteInfo informationDetail={this.state.informationDetail} getRoutes={this.getRoutes} />
             <Map pathDetails={this.state.pathDetails} />
           </div>
