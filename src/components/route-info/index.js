@@ -1,13 +1,14 @@
 import React from 'react';
 import './style.css';
 import RouteForm from './RouteForm';
+import { fetchDirectionsApi} from './service';
 
 
 class RouteInfo extends React.PureComponent {
 
 
-    getRoutes = (origin,destination) => {
-        
+    getRoutes = (object) => {
+         fetchDirectionsApi(object);
     }
 
     render() {

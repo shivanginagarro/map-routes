@@ -50,7 +50,15 @@ class RouteForm extends React.PureComponent {
 
     getRouteInMap = (event) =>{
         event.preventDefault();
-        this.props.getRoutes(_this.startPointPlaces,_this.dropPointPlaces);     
+        let originCoordinates = [
+             _this.startPointPlaces.geometry.location.lat().toString(),
+            _this.startPointPlaces.geometry.location.lng().toString()
+        ]
+        let destinationCorodinates = [
+          _this.dropPointPlaces.geometry.location.lat().toString(),
+          _this.dropPointPlaces.geometry.location.lng().toString()
+        ]
+        this.props.getRoutes({"origin":originCoordinates,"destination":destinationCorodinates});     
     }
 
     render() {
