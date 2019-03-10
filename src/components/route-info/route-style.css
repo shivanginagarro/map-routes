@@ -1,5 +1,28 @@
 .route-info-wrapper{
-    width: 30 + "%";
-    display: flex;
+    width: 28%;
     float: left;
 }
+
+.form-label{
+    width: 100%;
+    display: block;
+    padding: 10px;
+}
+
+.form-label input {
+    float: right;
+    padding: 4px;
+}
+
+.btn-container {
+    margin: 30px;
+}
+
+.btn-container button {
+    padding: 5px 10px 5px 10px;
+    margin: 0 5px 0 5px;
+    border: 0px;
+    color: #fff;
+    background-color: #000;
+}
+

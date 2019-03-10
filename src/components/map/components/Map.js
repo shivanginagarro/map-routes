@@ -77,6 +77,8 @@ class Map extends React.PureComponent {
         const { pathDetails } = this.props;
         if (pathDetails) {
             this.drawDirections(pathDetails);
+        } else {
+            this.setUpApiKeyInMap();
         }
         return null;
     }

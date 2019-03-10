@@ -11,9 +11,13 @@ import { fetchDirectionsApi } from './common/services/index';
 
 class Navigation extends React.PureComponent {
 
+  constructor(props){
+    super(props);
+    this.reset = this.reset.bind(this);
+  }
+
   state = {
     isLoading: false,
-    errorMessage: null,
     informationDetail: {
       "total_distance": null,
       "total_time": null,
@@ -58,13 +62,26 @@ class Navigation extends React.PureComponent {
 
   }
 
+  reset(){
+    this.turnsLoader(true);
+    this.setState({
+      informationDetail: {
+        "total_distance": null,
+        "total_time": null,
+        "error": null,
+      },
+      "pathDetails":null      
+    })
+    this.turnsLoader(false);    
+  }
+
   render() {
     return (
         <div className="App">
-          <h1><b>Routing with Google Map</b></h1>
+          <h1><b>Navigation with Google Map</b></h1>
           <div className={{ "width": 100 + "%" }}>
-            <ErrorBoundary>{this.state.isLoading && <div style={{"height":30+"px"}}><Loader isLoading={this.state.isLoading}/></div>}</ErrorBoundary>
-            <ErrorBoundary><RouteInfo informationDetail={this.state.informationDetail} getRoutes={this.getRoutes} /></ErrorBoundary>
+            <ErrorBoundary>{this.state.isLoading && <div style={{"height":100+"px"}}><Loader isLoading={this.state.isLoading}/></div>}</ErrorBoundary>
+            <ErrorBoundary><RouteInfo informationDetail={this.state.informationDetail} getRoutes={this.getRoutes} reset={this.reset} /></ErrorBoundary>
             <ErrorBoundary><Map pathDetails={this.state.pathDetails} /></ErrorBoundary>
           </div>
         </div>

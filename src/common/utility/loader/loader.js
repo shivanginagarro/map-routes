@@ -4,8 +4,8 @@ import "./loader-style.css";
 function Loader({ isLoading }) {
   return (
     isLoading && (
-      <div class="col-sm-2">
-        <div class="sp sp-circle"></div>
+      <div className="loader-container">
+        <div className="sp sp-circle"></div>
         <h5>LOADING ....!!!!</h5>
       </div>
     )

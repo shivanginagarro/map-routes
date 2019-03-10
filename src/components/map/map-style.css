@@ -1,6 +1,7 @@
 .map-wrapper{
         display: flex;
-        float: right;
-        width: 70% !important;
+        float: left;
+        width: 68%;
+        margin-left: 2%;
         height: 500px;
 }

@@ -43,13 +43,13 @@ class RouteForm extends React.PureComponent {
         googleObj.maps.event.addListener(destinationPlace, 'place_changed', () => {
             this.dropPointPlaces = destinationPlace.getPlace();
         })
-    }
+        }
 
 
     getRouteInMap = (event) => {
         event.preventDefault();
         //resetting states but not working need to check.
-        this.resetStates();
+        this.props.reset();
         let  originLocation =  this.startPointPlaces && this.startPointPlaces.geometry.location;
         let  destinationLocation = this.dropPointPlaces && this.dropPointPlaces.geometry.location; 
         let originCoordinates = [
@@ -64,21 +64,12 @@ class RouteForm extends React.PureComponent {
     resetForm = () => {
         this.startPoint.value = null;
         this.dropPoint.value = null;
-        this.resetStates();
-    }
-
-    resetStates = () => {
-        this.setState({
-            error: null,
-            total_distance: null,
-            total_time: null,
-        });
+        this.props.reset();
     }
 
     static getDerivedStateFromProps(props,state) {
         const { informationDetail } = props;
         const { total_time, total_distance, error } = informationDetail;
-        console.log('getDerivedStateFromProps',state)
         if (informationDetail) {
             return {
                 total_distance,
@@ -90,19 +81,16 @@ class RouteForm extends React.PureComponent {
         return null;
     }
 
-    getSnapshotBeforeUpdate(){
-        console.log('getSnapshotBeforeUpdate')
-    }
-
-    componentDidUpdate(){}
 
     render() {
         return (
             <div className="directions-form">
-                <label> Starting Point:  <input type="text" name="starting" ref={el => this.startPoint = el} placeholder="Pick Up From" /> </label>
-                <label> Dropping Point:  <input type="text" name="dropping" ref={el => this.dropPoint = el} placeholder="Drop To" /> </label>
+                <label class="form-label"> <span>Starting Point:</span>  <input type="text" name="starting" ref={el => this.startPoint = el} placeholder="Pick Up From" /> </label>
+                <label class="form-label"> <span>Dropping Point:</span>  <input type="text" name="dropping" ref={el => this.dropPoint = el} placeholder="Drop To" /> </label>
                 <RouteInfo informationDetail={this.props.informationDetail}/>
-                <button onClick={this.getRouteInMap}>{this.state.labelSubmit}</button> <button onClick={this.resetForm}>Reset</button>
+                <div class="btn-container">
+                    <button class="form-btn" onClick={this.getRouteInMap}>{this.state.labelSubmit}</button> <button onClick={this.resetForm}>Reset</button>
+                </div>
             </div>
         )
     }
