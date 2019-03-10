@@ -1,16 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import './style.css';
-
-import { MAP_SETTING } from "../map/map-config";
-import { mapInitOnLoad } from '../map/map-api-init-service';
-var GoogleMapsLoader = require('google-maps');
+import '../route-style.css';
+import RouteInfo from "./RouteInfo";
+import { mapInitOnLoad } from "../../../common/services/requests/map/index";
+import { MAP_SETTING } from "../../../common/services/configurations/map/index";
 
 let _this;
 class RouteForm extends React.PureComponent {
 
     startPointPlaces;
     dropPointPlaces;
+    google;
 
     constructor(props) {
         super(props);
@@ -25,23 +25,23 @@ class RouteForm extends React.PureComponent {
         }
     }
 
+
+    async setUpApiKeyInMap(){
+        let response = await mapInitOnLoad();
+        console.log("inside route setUpApiKeyInMap",response);
+        _this.google = response;
+        _this.getPlacesData(response);        
+    }
+
     componentDidMount() {
-        _this.setUpApiKeyInMap();
+          _this.setUpApiKeyInMap();
+        console.log('inside route this.google,componentDidMount',_this.google);
     }
-
-    setUpApiKeyInMap = async () => {
-        // NOTE TO SELF :probably use destructuring if possible
-        GoogleMapsLoader.KEY = MAP_SETTING.KEY;
-        GoogleMapsLoader.LIBRARIES = MAP_SETTING.LIBRARIES;
-        let response = await mapInitOnLoad(GoogleMapsLoader);
-        _this.map = response;
-        _this.getPlacesData(response);
-    }
-
 
     getPlacesData = (googleObj) => {
         let originPlace = new googleObj.maps.places.Autocomplete(_this.startPoint)
         let destinationPlace = new googleObj.maps.places.Autocomplete(_this.dropPoint)
+        console.log('originPlace.getPlace()',originPlace.getPlace());
         googleObj.maps.event.addListener(originPlace, 'place_changed', () => {
             _this.startPointPlaces = originPlace.getPlace();
         })
@@ -55,13 +55,14 @@ class RouteForm extends React.PureComponent {
         event.preventDefault();
         //resetting states but not working need to check.
         _this.resetStates();
+        let  originLocation =  _this.startPointPlaces && _this.startPointPlaces.geometry.location;
+        let  destinationLocation = _this.dropPointPlaces && _this.dropPointPlaces.geometry.location; 
+        console.log(originLocation,destinationLocation,event);
         let originCoordinates = [
-            _this.startPointPlaces.geometry.location.lat().toString(),
-            _this.startPointPlaces.geometry.location.lng().toString()
+            originLocation.lat().toString(),originLocation.lng().toString()
         ]
         let destinationCorodinates = [
-            _this.dropPointPlaces.geometry.location.lat().toString(),
-            _this.dropPointPlaces.geometry.location.lng().toString()
+            destinationLocation.lat().toString(),destinationLocation.lng().toString()
         ]
         this.props.getRoutes({ "origin": originCoordinates, "destination": destinationCorodinates })
     }
@@ -98,22 +99,15 @@ class RouteForm extends React.PureComponent {
 
     render() {
         return (
-            <form>
+            <div className="directions-form">
                 <label> Starting Point:  <input type="text" name="starting" ref={el => _this.startPoint = el} placeholder="Pick Up From" /> </label>
                 <label> Dropping Point:  <input type="text" name="dropping" ref={el => _this.dropPoint = el} placeholder="Drop To" /> </label>
-                {_this.state.total_distance ? 
-                       <div><label>Total Distance</label>:{_this.state.total_distance}</div> : null}
-                {_this.state.total_time ? 
-                       <div><label>Total Time</label>:{_this.state.total_time}</div> : null}
-                {_this.state.error ? 
-                       <div><label>Error</label>:{_this.state.error}</div> : null}
-                <input type="submit" value={_this.state.labelSubmit} onClick={_this.getRouteInMap} /> <button onClick={_this.resetForm}>Reset</button>
-            </form>
+                <RouteInfo informationDetail={_this.props.informationDetail}/>
+                <button onClick={_this.getRouteInMap}>{_this.state.labelSubmit}</button> <button onClick={_this.resetForm}>Reset</button>
+            </div>
         )
     }
 }
 
-RouteForm.propTypes = {
-    googleObject: PropTypes.object
-}
+
 export default RouteForm;

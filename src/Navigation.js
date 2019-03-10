@@ -1,18 +1,15 @@
 import React from 'react';
-import './App.css';
+import './Navigation.css';
 
-/**
- * importing files for our homepage ui components
- */
-import RouteInfo from './components/route-info/index.js';
-import Map from './components/map/index.js';
-import ErrorBoundary from './components/error-handling/error-handler';
-
-import { fetchDirectionsApi } from './components/route-info/service';
+import RouteInfo from './components/route-info/components/Route';
+import Map from './components/map/components/Map';
+import ErrorBoundary from './common/utility/error-modal/error-modal';
+import  { Loader } from "./common/utility/loader/loader"; 
+import { fetchDirectionsApi } from './common/services/requests/routes/index';
 
 
 
-class App extends React.PureComponent {
+class Navigation extends React.PureComponent {
 
   state = {
     isLoading: false,
@@ -62,20 +59,19 @@ class App extends React.PureComponent {
   }
 
   render() {
+    console.log('this.state.pathDetails',this.state.pathDetails);
     return (
-      <ErrorBoundary>
         <div className="App">
           <h1><b>Routing with Google Map</b></h1>
           <div className={{ "width": 100 + "%" }}>
-            {this.state.isLoading && <div style={{"height":30+"px"}}><h1>LOADING ....!!!!!!</h1></div>}
-            <RouteInfo informationDetail={this.state.informationDetail} getRoutes={this.getRoutes} />
-            <Map pathDetails={this.state.pathDetails} />
+            <ErrorBoundary>{this.state.isLoading && <div style={{"height":30+"px"}}><Loader isLoading={this.state.isLoading}/></div>}</ErrorBoundary>
+            <ErrorBoundary><RouteInfo informationDetail={this.state.informationDetail} getRoutes={this.getRoutes} /></ErrorBoundary>
+            <ErrorBoundary><Map pathDetails={this.state.pathDetails} /></ErrorBoundary>
           </div>
         </div>
-      </ErrorBoundary>
     )
   }
 }
 
 
-export default App;
+export default Navigation;

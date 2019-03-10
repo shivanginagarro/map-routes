@@ -11,5 +11,3 @@ export const MAP_SETTING = {
     //LIBRARY SETTINGS
     LIBRARIES: ['geometry', 'places']
 }
-
-

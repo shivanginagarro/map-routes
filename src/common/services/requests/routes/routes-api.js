@@ -1,5 +1,5 @@
-import {API} from './axios-wrapper';
-import {route} from './config';
+import {API} from '../axios/index';
+import {route} from '../../configurations/axios/index';
 
 const requestForRoutesToken  = async (coordinates) => {
     const url = route;

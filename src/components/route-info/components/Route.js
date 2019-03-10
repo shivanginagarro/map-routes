@@ -1,9 +1,9 @@
 import React from 'react';
-import './style.css';
+import '../route-style.css';
 import RouteForm from './RouteForm';
 
 
-class RouteInfo extends React.PureComponent {
+class Route extends React.PureComponent {
 
     render() {
         return (
@@ -14,4 +14,4 @@ class RouteInfo extends React.PureComponent {
     }
 }
 
-export default RouteInfo;
+export default Route;
