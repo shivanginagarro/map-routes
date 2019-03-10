@@ -1,9 +1,7 @@
 import React from 'react';
 import '../map-style.css';
-import { mapInitOnLoad } from "../../../common/services/requests/map/index";
-import { MAP_SETTING } from "../../../common/services/configurations/map/index";
-
-let _this;
+import { mapInitOnLoad } from "../../../common/services/index";
+import { MAP_SETTING } from "../../../common/configurations/constants/index";
 
 class Map extends React.PureComponent {
 
@@ -12,8 +10,7 @@ class Map extends React.PureComponent {
 
     constructor(props) {
         super(props);
-        _this = this;
-        _this.state = {}; 
+        this.state = {}; 
     }
 
     /**
@@ -22,7 +19,7 @@ class Map extends React.PureComponent {
      *  pass DIV to give dom for rendering map
      */
     buildMapOnDom(response) {
-        _this.currentMap =  new response.maps.Map(_this.mapDiv, {
+        this.currentMap =  new response.maps.Map(this.mapDiv, {
             center: MAP_SETTING.COORDINATES,
             zoom: MAP_SETTING.ZOOM_SIZE
         });
@@ -31,14 +28,12 @@ class Map extends React.PureComponent {
 
     async setUpApiKeyInMap(){
         let response = await mapInitOnLoad();
-        console.log('setUpApiKeyInMap response',response);
-        _this.google = response
-        _this.buildMapOnDom(response);        
+        this.google = response
+        this.buildMapOnDom(response);        
     }
 
     componentDidMount(){
-        _this.setUpApiKeyInMap();
-        console.log('_this.google',_this.google);
+        this.setUpApiKeyInMap();
     }
 
     /**
@@ -46,21 +41,15 @@ class Map extends React.PureComponent {
      * @param path Array of points
      */
     preparePositionsFromPath = path => {
-        return path.map(([lat, lng]) => new _this.google.LatLng(lat, lng));
+        return path.map(([lat, lng]) => new this.google.maps.LatLng(lat, lng));
     };
 
-    /**
-     * @description Plot the received points on map as route directions
-     * @param Object Response object returned from the Api containing the path points
-     */
-    drawDirections = ({ pathDetails }) => {
-        console.log('_thismaps',_this.google,_this.google.DirectionsRenderer,_this.google.DirectionsService);
-        const directionsService = new _this.google.DirectionsService;
-        const directionsRenderer = new _this.google.DirectionsRenderer;
-        console.log('directionsService directionsRenderer',directionsService,directionsRenderer);
-        directionsRenderer.setMap(_this.map);
-
-        const positions = _this.preparePositionsFromPath(pathDetails);
+    
+    drawDirections = (pathDetails) => {
+        const directionsService = new this.google.maps.DirectionsService;
+        const directionsRenderer = new this.google.maps.DirectionsRenderer;
+        directionsRenderer.setMap(this.currentMap);
+        const positions = this.preparePositionsFromPath(pathDetails);
         const waypoints = positions
             .slice(1, positions.length - 1)
             .map(location => ({ location, stopover: false }));
@@ -71,12 +60,12 @@ class Map extends React.PureComponent {
             destination: positions[positions.length - 1],
             waypoints,
             optimizeWaypoints: true,
-            travelMode: _this.maps.TravelMode.DRIVING
+            travelMode: this.google.maps.TravelMode.DRIVING
         };
 
         // get the route from directionService and then plot with the help of directionsRenderer
         directionsService.route(request, (response, status) => {
-            if (status === _this.maps.DirectionsStatus.OK) {
+            if (status === this.google.maps.DirectionsStatus.OK) {
                 directionsRenderer.setDirections(response);
             } else {
                 alert('Error in direction service response');
@@ -84,11 +73,10 @@ class Map extends React.PureComponent {
         });
     };
 
-    static getDerivedStateFromProps(props,state) {
-        const { pathDetails } = props;
-        console.log('pathDetails',pathDetails,'props',props);
+    getSnapshotBeforeUpdate() {
+        const { pathDetails } = this.props;
         if (pathDetails) {
-            _this.drawDirections(pathDetails);
+            this.drawDirections(pathDetails);
         }
         return null;
     }
@@ -97,9 +85,8 @@ class Map extends React.PureComponent {
     componentDidUpdate() {}
 
     render() {
-        console.log('_thisprops',_this.props);
         return (
-            <div id="my-map" ref={element => _this.mapDiv = element} className={"map-wrapper"}>
+            <div id="my-map" ref={element => this.mapDiv = element} className={"map-wrapper"}>
                 <h2>My Map</h2>
             </div>
         )

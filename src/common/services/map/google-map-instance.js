@@ -1,5 +1,5 @@
-import {MAP_SETTING} from "../../configurations/map/index";
-let map = require('google-maps');
+import { MAP_SETTING } from "../../configurations/constants/index";
+import map from 'google-maps';
 
 let googleInstance = null;
 
@@ -7,14 +7,20 @@ const settingInit = () => {
     map.KEY = MAP_SETTING.KEY;
     map.LIBRARIES = MAP_SETTING.LIBRARIES;
 }
+settingInit();
+
 
 export const mapInitOnLoad = async () => {
-    settingInit();
     const myMapPromise = await new Promise(resolve => {
-        map.load(api => {
-            googleInstance = !googleInstance ? api : googleInstance;
+        if (googleInstance) {
             resolve(googleInstance);
-        })
+        }
+        else {
+            map.load(api => {
+                googleInstance = api;
+                resolve(googleInstance);
+            })
+        }
     });
     return myMapPromise;
 }

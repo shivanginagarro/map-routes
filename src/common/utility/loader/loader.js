@@ -2,7 +2,6 @@ import React from "react";
 import "./loader-style.css";
 
 function Loader({ isLoading }) {
-  console.log('isLoading',isLoading);
   return (
     isLoading && (
       <div class="col-sm-2">

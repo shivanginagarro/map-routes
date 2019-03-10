@@ -2,10 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import '../route-style.css';
 import RouteInfo from "./RouteInfo";
-import { mapInitOnLoad } from "../../../common/services/requests/map/index";
-import { MAP_SETTING } from "../../../common/services/configurations/map/index";
+import { mapInitOnLoad } from "../../../common/services/index";
+import { MAP_SETTING } from "../../../common/configurations/constants/index";
 
-let _this;
 class RouteForm extends React.PureComponent {
 
     startPointPlaces;
@@ -14,8 +13,7 @@ class RouteForm extends React.PureComponent {
 
     constructor(props) {
         super(props);
-        _this = this;
-        _this.state = {
+        this.state = {
             startingPoint: "",
             droppingPoint: "",
             error: null,
@@ -28,25 +26,22 @@ class RouteForm extends React.PureComponent {
 
     async setUpApiKeyInMap(){
         let response = await mapInitOnLoad();
-        console.log("inside route setUpApiKeyInMap",response);
-        _this.google = response;
-        _this.getPlacesData(response);        
+        this.google = response;
+        this.getPlacesData(response);        
     }
 
     componentDidMount() {
-          _this.setUpApiKeyInMap();
-        console.log('inside route this.google,componentDidMount',_this.google);
+          this.setUpApiKeyInMap();
     }
 
     getPlacesData = (googleObj) => {
-        let originPlace = new googleObj.maps.places.Autocomplete(_this.startPoint)
-        let destinationPlace = new googleObj.maps.places.Autocomplete(_this.dropPoint)
-        console.log('originPlace.getPlace()',originPlace.getPlace());
+        let originPlace = new googleObj.maps.places.Autocomplete(this.startPoint)
+        let destinationPlace = new googleObj.maps.places.Autocomplete(this.dropPoint)
         googleObj.maps.event.addListener(originPlace, 'place_changed', () => {
-            _this.startPointPlaces = originPlace.getPlace();
+            this.startPointPlaces = originPlace.getPlace();
         })
         googleObj.maps.event.addListener(destinationPlace, 'place_changed', () => {
-            _this.dropPointPlaces = destinationPlace.getPlace();
+            this.dropPointPlaces = destinationPlace.getPlace();
         })
     }
 
@@ -54,10 +49,9 @@ class RouteForm extends React.PureComponent {
     getRouteInMap = (event) => {
         event.preventDefault();
         //resetting states but not working need to check.
-        _this.resetStates();
-        let  originLocation =  _this.startPointPlaces && _this.startPointPlaces.geometry.location;
-        let  destinationLocation = _this.dropPointPlaces && _this.dropPointPlaces.geometry.location; 
-        console.log(originLocation,destinationLocation,event);
+        this.resetStates();
+        let  originLocation =  this.startPointPlaces && this.startPointPlaces.geometry.location;
+        let  destinationLocation = this.dropPointPlaces && this.dropPointPlaces.geometry.location; 
         let originCoordinates = [
             originLocation.lat().toString(),originLocation.lng().toString()
         ]
@@ -68,13 +62,13 @@ class RouteForm extends React.PureComponent {
     }
 
     resetForm = () => {
-        _this.startPoint = undefined;
-        _this.dropPoint = undefined;
-        _this.resetStates();
+        this.startPoint.value = null;
+        this.dropPoint.value = null;
+        this.resetStates();
     }
 
     resetStates = () => {
-        _this.setState({
+        this.setState({
             error: null,
             total_distance: null,
             total_time: null,
@@ -84,6 +78,7 @@ class RouteForm extends React.PureComponent {
     static getDerivedStateFromProps(props,state) {
         const { informationDetail } = props;
         const { total_time, total_distance, error } = informationDetail;
+        console.log('getDerivedStateFromProps',state)
         if (informationDetail) {
             return {
                 total_distance,
@@ -95,15 +90,19 @@ class RouteForm extends React.PureComponent {
         return null;
     }
 
+    getSnapshotBeforeUpdate(){
+        console.log('getSnapshotBeforeUpdate')
+    }
+
     componentDidUpdate(){}
 
     render() {
         return (
             <div className="directions-form">
-                <label> Starting Point:  <input type="text" name="starting" ref={el => _this.startPoint = el} placeholder="Pick Up From" /> </label>
-                <label> Dropping Point:  <input type="text" name="dropping" ref={el => _this.dropPoint = el} placeholder="Drop To" /> </label>
-                <RouteInfo informationDetail={_this.props.informationDetail}/>
-                <button onClick={_this.getRouteInMap}>{_this.state.labelSubmit}</button> <button onClick={_this.resetForm}>Reset</button>
+                <label> Starting Point:  <input type="text" name="starting" ref={el => this.startPoint = el} placeholder="Pick Up From" /> </label>
+                <label> Dropping Point:  <input type="text" name="dropping" ref={el => this.dropPoint = el} placeholder="Drop To" /> </label>
+                <RouteInfo informationDetail={this.props.informationDetail}/>
+                <button onClick={this.getRouteInMap}>{this.state.labelSubmit}</button> <button onClick={this.resetForm}>Reset</button>
             </div>
         )
     }

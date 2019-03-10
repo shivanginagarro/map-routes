@@ -5,7 +5,7 @@ import RouteInfo from './components/route-info/components/Route';
 import Map from './components/map/components/Map';
 import ErrorBoundary from './common/utility/error-modal/error-modal';
 import  { Loader } from "./common/utility/loader/loader"; 
-import { fetchDirectionsApi } from './common/services/requests/routes/index';
+import { fetchDirectionsApi } from './common/services/index';
 
 
 
@@ -59,7 +59,6 @@ class Navigation extends React.PureComponent {
   }
 
   render() {
-    console.log('this.state.pathDetails',this.state.pathDetails);
     return (
         <div className="App">
           <h1><b>Routing with Google Map</b></h1>
