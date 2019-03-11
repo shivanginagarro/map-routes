@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Component:Map Testing the Map Component 1`] = `
+<div
+  className="map-wrapper"
+  id="my-map"
+>
+  <h2>
+    My Map
+  </h2>
+</div>
+`;

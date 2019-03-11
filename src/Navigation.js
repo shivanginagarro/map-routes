@@ -1,7 +1,7 @@
 import React from 'react';
 import './Navigation.css';
 
-import RouteInfo from './components/route-info/components/Route';
+import Route from './components/route-info/components/Route';
 import Map from './components/map/components/Map';
 import ErrorBoundary from './common/utility/error-modal/error-modal';
 import  { Loader } from "./common/utility/loader/loader"; 
@@ -81,7 +81,7 @@ class Navigation extends React.PureComponent {
           <h1><b>Navigation with Google Map</b></h1>
           <div className={{ "width": 100 + "%" }}>
             <ErrorBoundary>{this.state.isLoading && <div style={{"height":100+"px"}}><Loader isLoading={this.state.isLoading}/></div>}</ErrorBoundary>
-            <ErrorBoundary><RouteInfo informationDetail={this.state.informationDetail} getRoutes={this.getRoutes} reset={this.reset} /></ErrorBoundary>
+            <ErrorBoundary><Route informationDetail={this.state.informationDetail} getRoutes={this.getRoutes} reset={this.reset} /></ErrorBoundary>
             <ErrorBoundary><Map pathDetails={this.state.pathDetails} /></ErrorBoundary>
           </div>
         </div>

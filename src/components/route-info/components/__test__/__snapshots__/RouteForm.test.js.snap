@@ -1,0 +1,54 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Component:RouteForm Testing the Route Form Component 1`] = `
+<div
+  className="directions-form"
+>
+  <label
+    className="form-label"
+  >
+     
+    <span>
+      Starting Point :
+    </span>
+      
+    <input
+      name="starting"
+      placeholder="Pick Up From"
+      type="text"
+    />
+     
+  </label>
+  <label
+    className="form-label"
+  >
+     
+    <span>
+      Dropping Point :
+    </span>
+      
+    <input
+      name="dropping"
+      placeholder="Drop To"
+      type="text"
+    />
+     
+  </label>
+  <div
+    className="btn-container"
+  >
+    <button
+      className="form-btn"
+      onClick={[Function]}
+    >
+      Submit
+    </button>
+     
+    <button
+      onClick={[Function]}
+    >
+      Reset
+    </button>
+  </div>
+</div>
+`;

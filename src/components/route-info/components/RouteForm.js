@@ -85,11 +85,11 @@ class RouteForm extends React.PureComponent {
     render() {
         return (
             <div className="directions-form">
-                <label class="form-label"> <span>Starting Point:</span>  <input type="text" name="starting" ref={el => this.startPoint = el} placeholder="Pick Up From" /> </label>
-                <label class="form-label"> <span>Dropping Point:</span>  <input type="text" name="dropping" ref={el => this.dropPoint = el} placeholder="Drop To" /> </label>
+                <label className="form-label"> <span>Starting Point :</span>  <input type="text" name="starting" ref={el => this.startPoint = el} placeholder="Pick Up From" /> </label>
+                <label className="form-label"> <span>Dropping Point :</span>  <input type="text" name="dropping" ref={el => this.dropPoint = el} placeholder="Drop To" /> </label>
                 <RouteInfo informationDetail={this.props.informationDetail}/>
-                <div class="btn-container">
-                    <button class="form-btn" onClick={this.getRouteInMap}>{this.state.labelSubmit}</button> <button onClick={this.resetForm}>Reset</button>
+                <div className="btn-container">
+                    <button className="form-btn" onClick={this.getRouteInMap}>{this.state.labelSubmit}</button> <button onClick={this.resetForm}>Reset</button>
                 </div>
             </div>
         )
