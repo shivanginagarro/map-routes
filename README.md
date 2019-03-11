@@ -29,7 +29,7 @@ Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-## To setup your API key
+## To Setup Your API Key
 
 Follow and navigate the path in your repo as given below:
 
