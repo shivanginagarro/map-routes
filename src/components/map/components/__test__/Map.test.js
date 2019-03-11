@@ -13,7 +13,6 @@ describe("Component:Map",() => {
 
    it("Testing google map instance service that makes a call for google map object on laod of applicaiton",() => {
     const res = mapInitOnLoad();
-    console.log('res',res);
     expect(res).not.toBeUndefined();
     expect(mapInitOnLoad).toHaveBeenCalled();
     expect(mapInitOnLoad).toHaveBeenCalledTimes(1);

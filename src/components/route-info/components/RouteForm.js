@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import '../route-style.css';
 import RouteInfo from "./RouteInfo";
 import { mapInitOnLoad } from "../../../common/services/index";
-import { MAP_SETTING } from "../../../common/configurations/constants/index";
 
 class RouteForm extends React.PureComponent {
     //to save selected place object for origin 

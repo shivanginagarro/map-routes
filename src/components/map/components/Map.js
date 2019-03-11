@@ -54,8 +54,10 @@ class Map extends React.PureComponent {
      * get routes and set the map routes with given path location
      */
     drawDirections = (pathDetails) => {
+        // eslint-disable-next-line
         const directionsService = new this.google.maps.DirectionsService;
-        const directionsRenderer = new this.google.maps.DirectionsRenderer;
+        // eslint-disable-next-line
+        const directionsRenderer = new this.google.maps.DirectionsRenderer; 
         directionsRenderer.setMap(this.currentMap);
         const positions = this.getPositionFromPath(pathDetails);
         const waypoints = positions
