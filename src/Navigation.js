@@ -16,6 +16,13 @@ class Navigation extends React.PureComponent {
     this.reset = this.reset.bind(this);
   }
 
+
+  /**
+   * @description:
+   * state property contains "information details" and "path" coordinates
+   * to pass it to it's child component.
+   * "isloading" is for showing and hiding the the application loader on events changes.
+   */
   state = {
     isLoading: false,
     informationDetail: {
@@ -26,20 +33,32 @@ class Navigation extends React.PureComponent {
     pathDetails: null
   }
 
+  /**
+   * @description
+   * toogles the loader value.
+   */
   turnsLoader = loading => {
     this.setState({ isLoading: loading });
   };
 
-
+/**
+ * @description
+ * if any calls fails and throws an error it will be shown as error modal messages,
+ * alert is used as error modal display 
+ */
   showError = (message) => {
     this.turnsLoader(false);
     alert(message);        
   }
 
+  /**@param object its a request object to get routes by origin and destination
+   * @description
+   * service call to get path coordinates from backend after passing origin and destinantion coordinates
+   */
   getRoutes = async (object) => {
     this.turnsLoader(true);
     let response = await fetchDirectionsApi(object).catch(e => this.showError('Internal Server Error'));;
-
+    //to handler error sent by backend for location can't be reached by driving error 
     if (response && response.data.status.toLowerCase() === "failure") {
       this.turnsLoader(false);
       this.setState({
@@ -48,7 +67,8 @@ class Navigation extends React.PureComponent {
         }
       });
     }
-
+  
+    //when response is successfull with path coordinates and information for distance and time.
     if (response && response.data.status.toLowerCase() === "success") {
       this.turnsLoader(false);
       this.setState({
@@ -61,7 +81,8 @@ class Navigation extends React.PureComponent {
     }
 
   }
-
+ 
+  //to handle reset action buttons
   reset(){
     this.turnsLoader(true);
     this.setState({
@@ -75,6 +96,8 @@ class Navigation extends React.PureComponent {
     this.turnsLoader(false);    
   }
 
+  //error boundary to handle any error thrown in from react cycle.
+  // it renders error handling dom instead of breaking the entire application.
   render() {
     return (
         <div className="App">

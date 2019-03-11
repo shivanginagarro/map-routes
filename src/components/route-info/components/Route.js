@@ -4,7 +4,7 @@ import RouteForm from './RouteForm';
 
 
 class Route extends React.PureComponent {
-
+//renders routefrom 
     render() {
         return (
             <div id="my-route" className={"route-info-wrapper"}>

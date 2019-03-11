@@ -1,4 +1,7 @@
 import React from "react";
+import PropTypes from 'prop-types';
+
+//its is more like a  presentational component for displaying the route related information from backend.  
 
 const RouteInfo = (props) => {
     const { informationDetail } = props;
@@ -11,4 +14,8 @@ const RouteInfo = (props) => {
     )
 }
 
+
+RouteInfo.protoType = {
+    informationDetail : PropTypes.object.isRequired,
+}
 export default RouteInfo;

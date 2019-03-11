@@ -25,7 +25,10 @@ class Map extends React.PureComponent {
         });
     }
 
-
+    /**
+     * @description
+     * to give a servive call to get google map instance
+     */
     async setUpApiKeyInMap(){
         let response = await mapInitOnLoad();
         this.google = response
@@ -37,19 +40,24 @@ class Map extends React.PureComponent {
     }
 
     /**
-     * @description Prepare Map positions from path points
-     * @param path Array of points
+     * @description
+     * get lat and lng from path points received from backend
+     * @param path Array of coordinates
      */
-    preparePositionsFromPath = path => {
+    getPositionFromPath = path => {
         return path.map(([lat, lng]) => new this.google.maps.LatLng(lat, lng));
     };
 
-    
+    /**
+     * @param pathDetails array of coordinates
+     * @description
+     * get routes and set the map routes with given path location
+     */
     drawDirections = (pathDetails) => {
         const directionsService = new this.google.maps.DirectionsService;
         const directionsRenderer = new this.google.maps.DirectionsRenderer;
         directionsRenderer.setMap(this.currentMap);
-        const positions = this.preparePositionsFromPath(pathDetails);
+        const positions = this.getPositionFromPath(pathDetails);
         const waypoints = positions
             .slice(1, positions.length - 1)
             .map(location => ({ location, stopover: false }));

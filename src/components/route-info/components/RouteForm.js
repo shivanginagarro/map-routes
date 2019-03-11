@@ -6,9 +6,11 @@ import { mapInitOnLoad } from "../../../common/services/index";
 import { MAP_SETTING } from "../../../common/configurations/constants/index";
 
 class RouteForm extends React.PureComponent {
-
+    //to save selected place object for origin 
     startPointPlaces;
+    //to save selected place object for destination     
     dropPointPlaces;
+    //to store google object locally
     google;
 
     constructor(props) {
@@ -23,7 +25,7 @@ class RouteForm extends React.PureComponent {
         }
     }
 
-
+    //call to get google map object
     async setUpApiKeyInMap(){
         let response = await mapInitOnLoad();
         this.google = response;
@@ -34,6 +36,11 @@ class RouteForm extends React.PureComponent {
           this.setUpApiKeyInMap();
     }
 
+    /**
+     * @description
+     * to get origin and destination dropdown options for places in input fields respectively.
+     * Autocomplete method of google api is used to get it   
+     */
     getPlacesData = (googleObj) => {
         let originPlace = new googleObj.maps.places.Autocomplete(this.startPoint)
         let destinationPlace = new googleObj.maps.places.Autocomplete(this.dropPoint)
@@ -45,7 +52,11 @@ class RouteForm extends React.PureComponent {
         })
         }
 
-
+    /**
+     * @description
+     * to get latitude and longitude of seleted origin and destination places and
+     *  then make a request to backend to get the coordinates of routes/path  
+     */
     getRouteInMap = (event) => {
         event.preventDefault();
         //resetting states but not working need to check.
@@ -60,13 +71,17 @@ class RouteForm extends React.PureComponent {
         ]
         this.props.getRoutes({ "origin": originCoordinates, "destination": destinationCorodinates })
     }
-
+    /**
+     * @description
+     * reset the entire form :reset the inputdivs and reset the information div of our form on click of reset button
+     */
     resetForm = () => {
         this.startPoint.value = null;
         this.dropPoint.value = null;
         this.props.reset();
     }
 
+    //updates states on getting any changes in props value
     static getDerivedStateFromProps(props,state) {
         const { informationDetail } = props;
         const { total_time, total_distance, error } = informationDetail;
@@ -96,5 +111,10 @@ class RouteForm extends React.PureComponent {
     }
 }
 
+RouteForm.protoType = {
+    informationDetail : PropTypes.object.isRequired,
+    getRoutes: PropTypes.func.isRequired,
+    reset:PropTypes.func.isRequired
+}
 
 export default RouteForm;
