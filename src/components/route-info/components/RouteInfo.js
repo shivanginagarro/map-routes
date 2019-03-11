@@ -7,9 +7,9 @@ const RouteInfo = (props) => {
     const { informationDetail } = props;
     return (
         <>
-        {informationDetail.total_distance ? <div><label>Total Distance</label>:{informationDetail.total_distance}</div> : null}
-        {informationDetail.total_time ? <div><label>Total Time</label>:{informationDetail.total_time}</div> : null}
-        {informationDetail.error ? <div><label>Error</label>:{informationDetail.error}</div> : null}
+        {informationDetail.total_distance ? <div><label className={"label-header"}>Total Distance</label>:{informationDetail.total_distance}</div> : null}
+        {informationDetail.total_time ? <div><label className={"label-header"}>Total Time</label>:{informationDetail.total_time}</div> : null}
+        {informationDetail.error ? <div className={"inline-error"}><label className={"label-header"}>Error</label>:{informationDetail.error}</div> : null}
         </>
     )
 }

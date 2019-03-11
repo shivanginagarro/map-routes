@@ -4,7 +4,7 @@ import { render } from 'react-dom';
 import Navigation from './Navigation';
 
 //import mocks and spies from services
-import fetchDirectionsApi, { mockresponse, mockrequestobject } from "./Navigation.route-api.mock";
+import fetchDirectionsApi, { mockresponse, mockrequestobject } from "./Navigation.mock";
 
 /**
  * @description:

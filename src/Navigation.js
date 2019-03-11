@@ -102,8 +102,8 @@ class Navigation extends React.PureComponent {
     return (
         <div className="App">
           <h1><b>Navigation with Google Map</b></h1>
-          <div className={{ "width": 100 + "%" }}>
-            <ErrorBoundary>{this.state.isLoading && <div style={{"height":100+"px"}}><Loader isLoading={this.state.isLoading}/></div>}</ErrorBoundary>
+          <div>
+            <ErrorBoundary>{this.state.isLoading && <div><Loader isLoading={this.state.isLoading}/></div>}</ErrorBoundary>
             <ErrorBoundary><Route informationDetail={this.state.informationDetail} getRoutes={this.getRoutes} reset={this.reset} /></ErrorBoundary>
             <ErrorBoundary><Map pathDetails={this.state.pathDetails} /></ErrorBoundary>
           </div>

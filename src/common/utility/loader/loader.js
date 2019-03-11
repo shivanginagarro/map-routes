@@ -3,10 +3,10 @@ import "./loader-style.css";
 
 function Loader({ isLoading }) {
   return (
-    isLoading && (
+    isLoading &&
+     (
       <div className="loader-container">
         <div className="sp sp-circle"></div>
-        <h5>LOADING ....!!!!</h5>
       </div>
     )
   );
