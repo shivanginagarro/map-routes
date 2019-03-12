@@ -36,3 +36,9 @@ Follow and navigate the path in your repo as given below:
 src > common > configurations > constants > map > map-setting-constant.js
 
 Open file with name 'map-setting-constant.js'.There you can place your API key in the value of "KEY" property and you are good to go.
+
+## To Generate Coverage report 
+
+Type the following command on your command prompt to generate coverage report for testing.
+
+npm run verify-tests -- --coverage
