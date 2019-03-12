@@ -7,27 +7,31 @@ exports[`Component:RouteForm Testing the Route Form Component 1`] = `
   <label
     className="form-label"
   >
-     
     <span>
       Starting Point :
     </span>
     <input
+      id="origin"
       name="starting"
+      onChange={[Function]}
       placeholder="Pick Up From"
       type="text"
+      value=""
     />
   </label>
   <label
     className="form-label"
   >
-     
     <span>
       Dropping Point :
     </span>
     <input
+      id="destination"
       name="dropping"
+      onChange={[Function]}
       placeholder="Drop To"
       type="text"
+      value=""
     />
   </label>
   <div
