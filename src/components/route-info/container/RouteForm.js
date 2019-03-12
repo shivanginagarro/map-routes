@@ -118,6 +118,10 @@ class RouteForm extends React.PureComponent {
         return null;
     }
 
+    /**
+     * @description changes the local status of component
+     * @param {event} event onclick handler 
+     */
     originChangeHanlder(event) {
         this.setState({ origin: event.target.value });
     }
