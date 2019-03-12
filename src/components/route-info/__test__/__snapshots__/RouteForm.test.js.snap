@@ -11,13 +11,11 @@ exports[`Component:RouteForm Testing the Route Form Component 1`] = `
     <span>
       Starting Point :
     </span>
-      
     <input
       name="starting"
       placeholder="Pick Up From"
       type="text"
     />
-     
   </label>
   <label
     className="form-label"
@@ -26,13 +24,11 @@ exports[`Component:RouteForm Testing the Route Form Component 1`] = `
     <span>
       Dropping Point :
     </span>
-      
     <input
       name="dropping"
       placeholder="Drop To"
       type="text"
     />
-     
   </label>
   <div
     className="btn-container"

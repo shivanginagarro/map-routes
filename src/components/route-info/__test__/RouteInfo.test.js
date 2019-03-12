@@ -1,5 +1,5 @@
 import React from "react";
-import RouteInfo from "../RouteInfo";
+import RouteInfo from "../component/RouteInfo";
 import renderer from "react-test-renderer";
 
 

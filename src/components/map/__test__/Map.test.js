@@ -1,8 +1,8 @@
 import React from "react";
-import Map from "../Map";
+import Map from "../component/Map";
 import renderer from "react-test-renderer";
 
-import mapInitOnLoad ,{ mockresponse } from "../__mocks__/google-map-instance.mock";
+import mapInitOnLoad ,{ mockresponse } from "./__mocks__/google-map-instance.mock";
 
 
 describe("Component:Map",() => {

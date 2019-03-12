@@ -1,5 +1,5 @@
 import React from "react";
-import Route from "../Route";
+import Route from "../container/Route";
 import renderer from "react-test-renderer"
 
 describe("Component:Route", () => {
@@ -15,7 +15,10 @@ describe("Component:Route", () => {
         let reset = () => {
             console.log("inside reset testing");
         }
-        const tree = renderer.create(<Route informationDetail={informationDetail} getRoutes={getRoutes} reset={reset} />).toJSON();
+        let validationHandling = () => {
+            console.log("inside validationHandling");
+        }
+        const tree = renderer.create(<Route informationDetail={informationDetail} getRoutes={getRoutes} reset={reset} validationHandling={validationHandling}/>).toJSON();
         expect(tree).toMatchSnapshot();
     });
 })

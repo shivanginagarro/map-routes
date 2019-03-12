@@ -1,0 +1,1 @@
+export const invalidInputValidation = "Start Point and Destination Point can not have same values and they can't be empty either.";

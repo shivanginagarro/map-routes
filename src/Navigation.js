@@ -1,19 +1,20 @@
 import React from 'react';
 import './Navigation.css';
 
-import Route from './components/route-info/components/Route';
-import Map from './components/map/components/Map';
+import Route from './components/route-info/container/Route';
+import Map from './components/map/component/Map';
 import ErrorBoundary from './common/utility/error-modal/error-modal';
-import  { Loader } from "./common/utility/loader/loader"; 
+import { Loader } from "./common/utility/loader/loader";
 import { fetchDirectionsApi } from './common/services/index';
 
 
 
 class Navigation extends React.PureComponent {
 
-  constructor(props){
+  constructor(props) {
     super(props);
     this.reset = this.reset.bind(this);
+    this.validationHandling = this.validationHandling.bind(this);
   }
 
 
@@ -41,14 +42,14 @@ class Navigation extends React.PureComponent {
     this.setState({ isLoading: loading });
   };
 
-/**
- * @description
- * if any calls fails and throws an error it will be shown as error modal messages,
- * alert is used as error modal display 
- */
+  /**
+   * @description
+   * if any calls fails and throws an error it will be shown as error modal messages,
+   * alert is used as error modal display 
+   */
   showError = (message) => {
     this.turnsLoader(false);
-    alert(message);        
+    alert(message);
   }
 
   /**@param object its a request object to get routes by origin and destination
@@ -67,23 +68,23 @@ class Navigation extends React.PureComponent {
         }
       });
     }
-  
+
     //when response is successfull with path coordinates and information for distance and time.
     if (response && response.data.status.toLowerCase() === "success") {
       this.turnsLoader(false);
       this.setState({
-      pathDetails : response.data.path,
-      informationDetail : {
-        "total_distance": response.data.total_distance,
-        "total_time": response.data.total_time,
-      }
-     })
+        pathDetails: response.data.path,
+        informationDetail: {
+          "total_distance": response.data.total_distance,
+          "total_time": response.data.total_time,
+        }
+      })
     }
 
   }
- 
+
   //to handle reset action buttons
-  reset(){
+  reset() {
     this.turnsLoader(true);
     this.setState({
       informationDetail: {
@@ -91,23 +92,31 @@ class Navigation extends React.PureComponent {
         "total_time": null,
         "error": null,
       },
-      "pathDetails":null      
+      "pathDetails": null
     })
-    this.turnsLoader(false);    
+    this.turnsLoader(false);
+  }
+
+  validationHandling({ error }) {
+    this.setState((prevState) => {
+      return {
+        informationDetail: { ...prevState.informationDetail, error }
+      }
+    })
   }
 
   //error boundary to handle any error thrown in from react cycle.
   // it renders error handling dom instead of breaking the entire application.
   render() {
     return (
-        <div className="App">
-          <h1><b>Navigation with Google Map</b></h1>
-          <div>
-            <ErrorBoundary>{this.state.isLoading && <div><Loader isLoading={this.state.isLoading}/></div>}</ErrorBoundary>
-            <ErrorBoundary><Route informationDetail={this.state.informationDetail} getRoutes={this.getRoutes} reset={this.reset} /></ErrorBoundary>
-            <ErrorBoundary><Map pathDetails={this.state.pathDetails} /></ErrorBoundary>
-          </div>
+      <div className="App">
+        <h1><b>Navigation with Google Map</b></h1>
+        <div>
+          <ErrorBoundary>{this.state.isLoading && <div><Loader isLoading={this.state.isLoading} /></div>}</ErrorBoundary>
+          <ErrorBoundary><Route informationDetail={this.state.informationDetail} getRoutes={this.getRoutes} reset={this.reset} validationHandling={this.validationHandling} /></ErrorBoundary>
+          <ErrorBoundary><Map pathDetails={this.state.pathDetails} /></ErrorBoundary>
         </div>
+      </div>
     )
   }
 }

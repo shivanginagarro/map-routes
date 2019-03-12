@@ -1,5 +1,5 @@
 import React from "react";
-import RouteForm from "../RouteForm";
+import RouteForm from "../container/RouteForm";
 import renderer from "react-test-renderer";
 
 describe("Component:RouteForm",() => {
@@ -15,7 +15,10 @@ describe("Component:RouteForm",() => {
     let reset = () => {
         console.log("inside reset testing infor");
     }
-    const tree = renderer.create(<RouteForm informationDetail={informationDetail} getRoutes={getRoutes} reset={reset} />).toJSON();
+    let validationHandling = () => {
+        console.log("inside validationHandling");
+    }
+    const tree = renderer.create(<RouteForm informationDetail={informationDetail} getRoutes={getRoutes} reset={reset} validationHandling={validationHandling}/>).toJSON();
     expect(tree).toMatchSnapshot();
    });
 })

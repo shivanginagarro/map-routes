@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import '../route-style.css';
-import RouteInfo from "./RouteInfo";
+import RouteInfo from "../component/RouteInfo";
 import { mapInitOnLoad } from "../../../common/services/index";
+import { invalidInputValidation } from "../constant/constant";
 
 class RouteForm extends React.PureComponent {
     //to save selected place object for origin 
@@ -15,24 +16,22 @@ class RouteForm extends React.PureComponent {
     constructor(props) {
         super(props);
         this.state = {
-            startingPoint: "",
-            droppingPoint: "",
             error: null,
             total_distance: null,
             total_time: null,
-            labelSubmit:"Submit"
+            labelSubmit: "Submit"
         }
     }
 
     //call to get google map object
-    async setUpApiKeyInMap(){
+    async setUpApiKeyInMap() {
         let response = await mapInitOnLoad();
         this.google = response;
-        this.getPlacesData(response);        
+        this.getPlacesData(response);
     }
 
     componentDidMount() {
-          this.setUpApiKeyInMap();
+        this.setUpApiKeyInMap();
     }
 
     /**
@@ -49,7 +48,7 @@ class RouteForm extends React.PureComponent {
         googleObj.maps.event.addListener(destinationPlace, 'place_changed', () => {
             this.dropPointPlaces = destinationPlace.getPlace();
         })
-        }
+    }
 
     /**
      * @description
@@ -58,15 +57,22 @@ class RouteForm extends React.PureComponent {
      */
     getRouteInMap = (event) => {
         event.preventDefault();
+        //validation for valid input
+        if (!this.startPointPlaces || !this.dropPointPlaces || this.startPointPlaces.formatted_address === this.dropPointPlaces.formatted_address) {
+            this.props.validationHandling({
+                error: invalidInputValidation
+            });
+            return;
+        }
         //resetting states but not working need to check.
         this.props.reset();
-        let  originLocation =  this.startPointPlaces && this.startPointPlaces.geometry.location;
-        let  destinationLocation = this.dropPointPlaces && this.dropPointPlaces.geometry.location; 
+        let originLocation = this.startPointPlaces && this.startPointPlaces.geometry.location;
+        let destinationLocation = this.dropPointPlaces && this.dropPointPlaces.geometry.location;
         let originCoordinates = [
-            originLocation.lat().toString(),originLocation.lng().toString()
+            originLocation.lat().toString(), originLocation.lng().toString()
         ]
         let destinationCorodinates = [
-            destinationLocation.lat().toString(),destinationLocation.lng().toString()
+            destinationLocation.lat().toString(), destinationLocation.lng().toString()
         ]
         this.props.getRoutes({ "origin": originCoordinates, "destination": destinationCorodinates })
     }
@@ -81,7 +87,7 @@ class RouteForm extends React.PureComponent {
     }
 
     //updates states on getting any changes in props value
-    static getDerivedStateFromProps(props,state) {
+    static getDerivedStateFromProps(props, state) {
         const { informationDetail } = props;
         const { total_time, total_distance, error } = informationDetail;
         if (informationDetail) {
@@ -89,7 +95,7 @@ class RouteForm extends React.PureComponent {
                 total_distance,
                 total_time,
                 error,
-                labelSubmit: total_distance || error ?"Re-Submit":"Submit"
+                labelSubmit: total_distance || error ? "Re-Submit" : "Submit"
             }
         }
         return null;
@@ -99,9 +105,9 @@ class RouteForm extends React.PureComponent {
     render() {
         return (
             <div className="directions-form">
-                <label className="form-label"> <span>Starting Point :</span>  <input type="text" name="starting" ref={el => this.startPoint = el} placeholder="Pick Up From" /> </label>
-                <label className="form-label"> <span>Dropping Point :</span>  <input type="text" name="dropping" ref={el => this.dropPoint = el} placeholder="Drop To" /> </label>
-                <RouteInfo informationDetail={this.props.informationDetail}/>
+                <label className="form-label"> <span>Starting Point :</span><input type="text" name="starting" ref={el => this.startPoint = el} placeholder="Pick Up From"/></label>
+                <label className="form-label"> <span>Dropping Point :</span><input type="text" name="dropping" ref={el => this.dropPoint = el} placeholder="Drop To"/></label>
+                <RouteInfo informationDetail={this.props.informationDetail} />
                 <div className="btn-container">
                     <button className="form-btn" onClick={this.getRouteInMap}>{this.state.labelSubmit}</button> <button onClick={this.resetForm}>Reset</button>
                 </div>
@@ -111,9 +117,9 @@ class RouteForm extends React.PureComponent {
 }
 
 RouteForm.protoType = {
-    informationDetail : PropTypes.object.isRequired,
+    informationDetail: PropTypes.object.isRequired,
     getRoutes: PropTypes.func.isRequired,
-    reset:PropTypes.func.isRequired
+    reset: PropTypes.func.isRequired
 }
 
 export default RouteForm;
