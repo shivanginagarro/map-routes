@@ -1,1 +1,2 @@
-export const invalidInputValidation = "Start Point and Destination Point can not have same values and they can't be empty either.";
+export const samePlaceValidation = "Start Point and Destination Point can not have same values.";
+export const requiredValidation = "Start Point and Destination point can not have empty values.";

@@ -8,7 +8,6 @@ import { Loader } from "./common/utility/loader/loader";
 import { fetchDirectionsApi } from './common/services/index';
 
 
-
 class Navigation extends React.PureComponent {
 
   constructor(props) {

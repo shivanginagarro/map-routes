@@ -34,3 +34,7 @@
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
     margin:3px;
 }
+
+.float-right{
+    float:right;
+}
