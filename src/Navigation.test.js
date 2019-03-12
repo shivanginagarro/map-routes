@@ -2,9 +2,14 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { render } from 'react-dom';
 import Navigation from './Navigation';
+import Enzyme, { shallow } from "enzyme";
+import Adapter from "enzyme-adapter-react-16";
 
 //import mocks and spies from services
 import fetchDirectionsApi, { mockresponse, mockrequestobject } from "./Navigation.mock";
+
+//configure enzyme
+Enzyme.configure({ "adapter" : new Adapter() });
 
 /**
  * @description:
@@ -37,5 +42,11 @@ describe('Application:Navigation', () => {
     expect(fetchDirectionsApi).toHaveBeenCalledTimes(1);
     // argument testing 
     expect(fetchDirectionsApi).toHaveBeenCalledWith(mockrequestobject);
+  })
+
+  it("render of navigation app",() => {
+    let wrapper = shallow(<Navigation />);
+    console.log('wrapper.exists() boolean value',wrapper.exists());
+    expect(wrapper.exists()).toBe(true);
   })
 })

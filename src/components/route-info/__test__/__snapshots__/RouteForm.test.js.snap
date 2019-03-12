@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Component:RouteForm Testing the Route Form Component 1`] = `
+exports[`Component:RouteForm Testing the Route Form Component: snapshot 1`] = `
 <div
   className="directions-form"
 >
